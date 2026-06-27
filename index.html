@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#07111f">
+  <meta name="description" content="Interactive calendar for 307 technology events from July 2026 to July 2027.">
+  <title>Technology Events Calendar | July 2026 – July 2027</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#calendarGrid">Skip to calendar</a>
+
+  <div class="ambient ambient-one" aria-hidden="true"></div>
+  <div class="ambient ambient-two" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <div class="brand-wrap">
+      <div class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" role="img"><path d="M7 5h18a2 2 0 0 1 2 2v18a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z"/><path d="M10 3v5M22 3v5M5 11h22"/><circle cx="11" cy="16" r="1.5"/><circle cx="16" cy="16" r="1.5"/><circle cx="21" cy="16" r="1.5"/><circle cx="11" cy="21" r="1.5"/><circle cx="16" cy="21" r="1.5"/></svg>
+      </div>
+      <div>
+        <p class="eyebrow">BOSS-READY EVENT INTELLIGENCE</p>
+        <h1>Technology Events Calendar</h1>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <span class="coverage-chip">Jul 2026 — Jul 2027</span>
+      <button class="icon-button" id="openWatchlistBtn" type="button" title="Open undated watchlist" aria-label="Open undated watchlist">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="M12 8v4M12 16h.01"/></svg>
+        <span class="button-label">Watchlist</span>
+        <span class="mini-count" id="watchlistCount">28</span>
+      </button>
+      <button class="icon-button" id="exportBtn" type="button" title="Export filtered events as CSV" aria-label="Export filtered events as CSV">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>
+        <span class="button-label">Export</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <section class="hero-panel" aria-labelledby="overviewTitle">
+      <div class="hero-copy">
+        <p class="eyebrow">AUDITED 27 JUNE 2026</p>
+        <h2 id="overviewTitle">One calendar. Every event. Clear verification.</h2>
+        <p>Explore confirmed events, directory candidates, and community watchlist items from the supplied 307-record workbook.</p>
+      </div>
+      <div class="metric-grid" aria-label="Database summary">
+        <button class="metric-card active" type="button" data-tier-quick="all">
+          <span class="metric-label">All records</span>
+          <strong>307</strong>
+          <span class="metric-note">Complete database</span>
+        </button>
+        <button class="metric-card" type="button" data-tier-quick="confirmed">
+          <span class="metric-label">Confirmed</span>
+          <strong>245</strong>
+          <span class="metric-note">Tier A + B</span>
+        </button>
+        <button class="metric-card" type="button" data-tier-quick="A">
+          <span class="metric-label">Full details</span>
+          <strong>12</strong>
+          <span class="metric-note">Tier A</span>
+        </button>
+        <button class="metric-card" type="button" data-tier-quick="research">
+          <span class="metric-label">Research leads</span>
+          <strong>62</strong>
+          <span class="metric-note">Tier C + D</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="filter-panel" aria-label="Event filters">
+      <div class="filter-main-row">
+        <label class="search-field" for="searchInput">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <input id="searchInput" type="search" autocomplete="off" placeholder="Search event, topic, organizer or country…">
+          <kbd>/</kbd>
+        </label>
+
+        <label class="select-field">
+          <span>Region</span>
+          <select id="regionFilter" aria-label="Filter by region"><option value="all">All regions</option></select>
+        </label>
+        <label class="select-field">
+          <span>Category</span>
+          <select id="categoryFilter" aria-label="Filter by category"><option value="all">All categories</option></select>
+        </label>
+        <label class="select-field">
+          <span>Mode</span>
+          <select id="modeFilter" aria-label="Filter by mode">
+            <option value="all">All modes</option>
+            <option value="In-person">In-person</option>
+            <option value="Hybrid">Hybrid</option>
+            <option value="Online">Online</option>
+            <option value="TBA">TBA / varies</option>
+          </select>
+        </label>
+        <label class="select-field">
+          <span>Verification</span>
+          <select id="tierFilter" aria-label="Filter by verification tier">
+            <option value="all">All tiers</option>
+            <option value="confirmed">Confirmed (A + B)</option>
+            <option value="A">Tier A — Fully verified</option>
+            <option value="B">Tier B — Confirmed</option>
+            <option value="C">Tier C — Directory</option>
+            <option value="D">Tier D — Watchlist</option>
+            <option value="research">Research (C + D)</option>
+          </select>
+        </label>
+        <button class="reset-button" id="resetFiltersBtn" type="button">Reset</button>
+      </div>
+      <div class="filter-status-row">
+        <div id="activeFilterChips" class="active-chips" aria-live="polite"></div>
+        <p class="result-summary" id="resultSummary">307 matching records</p>
+      </div>
+    </section>
+
+    <section class="workspace">
+      <div class="calendar-card">
+        <div class="calendar-toolbar">
+          <div>
+            <p class="eyebrow">MONTHLY VIEW</p>
+            <h2 id="monthTitle">July 2026</h2>
+          </div>
+          <div class="calendar-controls">
+            <button class="control-button" id="prevMonthBtn" type="button" aria-label="Previous month">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+            </button>
+            <select id="monthJump" class="month-jump" aria-label="Jump to month"></select>
+            <button class="control-button" id="nextMonthBtn" type="button" aria-label="Next month">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="calendar-legend" aria-label="Category color legend" id="categoryLegend"></div>
+
+        <div class="weekday-row" aria-hidden="true">
+          <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+        </div>
+        <div id="calendarGrid" class="calendar-grid" role="grid" aria-labelledby="monthTitle"></div>
+        <div class="calendar-footer">
+          <span><span class="footer-dot confirmed-dot"></span> Confirmed A/B</span>
+          <span><span class="footer-dot research-dot"></span> Research C</span>
+          <span>Undated Tier D records appear in Watchlist</span>
+        </div>
+      </div>
+
+      <aside class="sidebar-card" aria-labelledby="monthEventsTitle">
+        <div class="sidebar-header">
+          <div>
+            <p class="eyebrow">UPCOMING</p>
+            <h2 id="monthEventsTitle">Events This Month</h2>
+          </div>
+          <span class="count-pill" id="monthEventCount">0</span>
+        </div>
+        <div class="sidebar-insight" id="monthInsight"></div>
+        <div id="monthEventList" class="month-event-list"></div>
+      </aside>
+    </section>
+
+    <section class="data-note">
+      <div class="note-icon" aria-hidden="true">i</div>
+      <div>
+        <strong>Verification guidance</strong>
+        <p>Tier A and B records are confirmed. Tier C and D records are research leads and should be rechecked on official sources before payment, travel, or management commitment.</p>
+      </div>
+      <span>Source: supplied Excel workbook</span>
+    </section>
+  </main>
+
+  <div class="modal-backdrop" id="modalBackdrop" hidden>
+    <section class="modal-shell" id="eventListModal" role="dialog" aria-modal="true" aria-labelledby="eventListModalTitle" hidden>
+      <div class="modal-header">
+        <div>
+          <p class="eyebrow">DATE AGENDA</p>
+          <h2 id="eventListModalTitle">Events</h2>
+          <p id="eventListModalSubtitle"></p>
+        </div>
+        <button class="modal-close" type="button" data-close-modal aria-label="Close modal">×</button>
+      </div>
+      <div class="modal-body" id="dateEventList"></div>
+    </section>
+
+    <section class="modal-shell detail-modal" id="eventDetailModal" role="dialog" aria-modal="true" aria-labelledby="detailEventTitle" hidden>
+      <div class="modal-header detail-header">
+        <button class="back-button" id="backToListBtn" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+          Back to list
+        </button>
+        <button class="modal-close" type="button" data-close-modal aria-label="Close modal">×</button>
+      </div>
+      <div class="modal-body" id="eventDetailContent"></div>
+    </section>
+
+    <section class="modal-shell watchlist-modal" id="watchlistModal" role="dialog" aria-modal="true" aria-labelledby="watchlistModalTitle" hidden>
+      <div class="modal-header">
+        <div>
+          <p class="eyebrow">UNDATED RESEARCH LEADS</p>
+          <h2 id="watchlistModalTitle">Community Watchlist</h2>
+          <p>Tier D records without a fixed confirmed date.</p>
+        </div>
+        <button class="modal-close" type="button" data-close-modal aria-label="Close modal">×</button>
+      </div>
+      <div class="modal-toolbar">
+        <label class="search-field compact" for="watchlistSearch">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <input id="watchlistSearch" type="search" placeholder="Search watchlist…">
+        </label>
+      </div>
+      <div class="modal-body" id="watchlistContent"></div>
+    </section>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="data/events.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>
